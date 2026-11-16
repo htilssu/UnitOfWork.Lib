@@ -1,0 +1,18 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".gitignore" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="global.json" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/Solution Items/workflows/">
+    <File Path=".github/workflows/publish.yml" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/UnitOfWork.Core/UnitOfWork.Core.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/UnitOfWork.Lib.Tests/UnitOfWork.Lib.Tests.csproj" />
+  </Folder>
+</Solution>

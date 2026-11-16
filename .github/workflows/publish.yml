@@ -1,0 +1,35 @@
+name: Build & publish package
+
+# Versions come from git tags via MinVer (see Directory.Build.props).
+# - Pull request : build + test + pack (nothing is pushed)
+# - Push to main : publish prerelease, e.g. 3 commits after v1.2.3 -> 1.2.4-alpha.0.3
+# - Tag v1.2.3   : publish release 1.2.3
+on:
+  push:
+    branches: [main]
+    tags: ['v*.*.*']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  nuget:
+    uses: htilssu/dotnet-workflows/.github/workflows/dotnet-nuget.yml@v1
+    permissions:
+      contents: read
+      packages: write
+    with:
+      solution: UnitOfWork.Lib.slnx
+      # Packs every project with <IsPackable>true</IsPackable>. List projects here to restrict:
+      # pack-projects: |
+      #   src/UnitOfWork.Lib/UnitOfWork.Lib.csproj
+      #
+      # The template repository itself only builds and tests; repositories created from it publish.
+      publish: ${{ github.repository != 'htilssu/dotnet-library-template' }}
